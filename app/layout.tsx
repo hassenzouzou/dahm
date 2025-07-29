@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
 import DahmCursor from "@/components/DahmCursor"; // Add this import
 import "./globals.css";
+import { baseUrl } from "@/api/api";
 
 const cairo = Cairo({
   weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
@@ -43,8 +44,7 @@ export const metadata = {
   ],
   authors: [{
     name: "Dahm Digital Marketing Agency",
-    url: `https://${process.env.NEXT_PUBLIC_DOMAIN_NAME || 'yourdomain.com'
-      }`
+    url: `${baseUrl}`
   }],
   creator: "Dahm Digital Marketing Agency",
   publisher: "Dahm Digital Marketing Agency",
@@ -68,8 +68,7 @@ export const metadata = {
     type: 'website',
     locale: 'ar_OM',
     alternateLocale: ['en_US', 'ar_SA'],
-    url: `https://${process.env.NEXT_PUBLIC_DOMAIN_NAME || 'yourdomain.com'
-      }`,
+    url: `${baseUrl}`,
     siteName: 'دهم - وكالة التسويق الرقمي',
     title: 'دهم - وكالة التسويق الرقمي الرائدة في عُمان | Dahm Digital Marketing Agency',
     description: 'دهم أفضل وكالة تسويق رقمي في عُمان. نحول أفكارك إلى نجاح رقمي حقيقي من خلال حلول تسويقية مبتكرة واحترافية.',
@@ -106,19 +105,15 @@ export const metadata = {
     },
   },
   verification: {
-    // google: 'your-google-verification-code', // Uncomment and replace with actual verification code
-    // yandex: 'your-yandex-verification-code', // Uncomment and replace with actual verification code
-    // other: {
-    //   'msvalidate.01': 'your-bing-verification-code', // Uncomment and replace with actual Bing verification code
-    // },
+    google: process.env.NEXT_PUBLIC__GOOGLE_ANALYTICS_ID, // Uncomment and replace with actual verification code
+    yandex: process.env.NEXT_PUBLIC__YANDEX_ANALYTICS_ID, // Uncomment and replace with actual verification code
+
   },
   alternates: {
-    canonical: `https://${process.env.NEXT_PUBLIC_DOMAIN_NAME || 'yourdomain.com'
-      }`,
+    canonical: `${baseUrl}`,
     languages: {
-      'ar-OM': `https://${process.env.NEXT_PUBLIC_DOMAIN_NAME || 'yourdomain.com'
-        }`,
-      'ar': `https://${process.env.NEXT_PUBLIC_DOMAIN_NAME || 'yourdomain.com'
+      'ar-OM': `${baseUrl}`,
+      'ar': `${baseUrl}
         }`,
       // 'en-US': 'https://yourdomain.com/en', // Uncomment if you have English version
     },
@@ -143,13 +138,13 @@ export default function RootLayout({
     "@graph": [
       {
         "@type": "Organization",
-        "@id": `https://${process.env.NEXT_PUBLIC_DOMAIN_NAME || 'yourdomain.com'}/#organization`,
+        "@id": `${baseUrl}/#organization`,
         "name": "دهم - وكالة التسويق الرقمي",
         "alternateName": "Dahm Digital Marketing Agency",
-        "url": `https://${process.env.NEXT_PUBLIC_DOMAIN_NAME || 'yourdomain.com'}`,
+        "url": `${baseUrl}`,
         "logo": {
           "@type": "ImageObject",
-          "url": "https://yourdomain.com/logo.png",
+          "url": `${baseUrl}/logo.png`,
           "width": 300,
           "height": 100
         },
@@ -176,42 +171,40 @@ export default function RootLayout({
       },
       {
         "@type": "WebSite",
-        "@id": `https://${process.env.NEXT_PUBLIC_DOMAIN_NAME || 'yourdomain.com'
-          }/#website`,
-        "url": `https://${process.env.NEXT_PUBLIC_DOMAIN_NAME || 'yourdomain.com'}`,
+        "@id": `${baseUrl}/#website`,
+        "url": `${baseUrl}`,
         "name": "دهم - وكالة التسويق الرقمي",
         "description": "وكالة تسويق رقمي عُمانية تحول الأفكار إلى تأثير حقيقي",
         "publisher": {
-          "@id": `https://${process.env.NEXT_PUBLIC_DOMAIN_NAME || 'yourdomain.com'}/#organization`
+          "@id": `${baseUrl}/#organization`
         },
         "inLanguage": "ar-OM",
         "potentialAction": {
           "@type": "SearchAction",
-          "target": `https://${process.env.NEXT_PUBLIC_DOMAIN_NAME || 'yourdomain.com'}/search?q={search_term_string}`,
+          "target": `${baseUrl}/search?q={search_term_string}`,
           "query-input": "required name=search_term_string"
         }
       },
       {
         "@type": "WebPage",
-        "@id": `https://${process.env.NEXT_PUBLIC_DOMAIN_NAME || 'yourdomain.com'}/#webpage`,
-        "url": `https://${process.env.NEXT_PUBLIC_DOMAIN_NAME || 'yourdomain.com'}`,
+        "@id": `${baseUrl}/#webpage`,
+        "url": `${baseUrl}`,
         "name": "دهم - وكالة التسويق الرقمي الرائدة في عُمان",
         "isPartOf": {
-          "@id": `https://${process.env.NEXT_PUBLIC_DOMAIN_NAME || 'yourdomain.com'}/#website`
+          "@id": `${baseUrl}/#website`
         },
         "about": {
-          "@id": `https://${process.env.NEXT_PUBLIC_DOMAIN_NAME || 'yourdomain.com'}/#organization`
+          "@id": `${baseUrl}/#organization`
         },
         "description": "دهم أفضل وكالة تسويق رقمي في عُمان. نقدم خدمات التسويق الرقمي، تصميم المواقع، SEO، وإدارة وسائل التواصل الاجتماعي",
         "breadcrumb": {
-          "@id": `https://${process.env.NEXT_PUBLIC_DOMAIN_NAME || 'yourdomain.com'}/#breadcrumb`
+          "@id": `${baseUrl}/#breadcrumb`
         },
         "inLanguage": "ar-OM",
         "potentialAction": [
           {
             "@type": "ReadAction",
-            "target": [`https://${process.env.NEXT_PUBLIC_DOMAIN_NAME || 'yourdomain.com'
-              }`]
+            "target": [`${baseUrl}`]
           }
         ]
       },
@@ -220,7 +213,7 @@ export default function RootLayout({
         "name": "خدمات التسويق الرقمي",
         "description": "خدمات تسويق رقمي شاملة تشمل SEO، إعلانات جوجل، إدارة وسائل التواصل الاجتماعي، وتصميم المواقع",
         "provider": {
-          "@id": `https://${process.env.NEXT_PUBLIC_DOMAIN_NAME || 'yourdomain.com'}/#organization`
+          "@id": `${baseUrl}/#organization`
         },
         "areaServed": {
           "@type": "Country",
@@ -264,14 +257,13 @@ export default function RootLayout({
       },
       {
         "@type": "BreadcrumbList",
-        "@id": `https://${process.env.NEXT_PUBLIC_DOMAIN_NAME || 'yourdomain.com'}/#breadcrumb`,
+        "@id": `${baseUrl}/#breadcrumb`,
         "itemListElement": [
           {
             "@type": "ListItem",
             "position": 1,
             "name": "الرئيسية",
-            "item": `https://${process.env.NEXT_PUBLIC_DOMAIN_NAME || 'yourdomain.com'
-              }`
+            "item": `${baseUrl}`
           }
         ]
       }
