@@ -136,7 +136,22 @@ export default function Header() {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleNavItemClick = (item: (typeof navigation)[0]) => {
+  // const handleNavItemClick = (item: (typeof navigation)[0]) => {
+  //   setActiveSection(item.name);
+  //   scrollToSection(item.href);
+  //   setIsMenuOpen(false);
+  // };
+  // const handleNavClick = (item: (typeof navigation)[0]) => {
+  //   setActiveSection(item.name);
+  //   scrollToSection(item.href);
+  // };
+
+  const handleLogoClick = () => {
+    setActiveSection("الرئيسية");
+    scrollToSection("#home");
+  };
+
+  const handleMobileNavClick = (item: (typeof navigation)[0]) => {
     setActiveSection(item.name);
     scrollToSection(item.href);
     setIsMenuOpen(false);
@@ -229,42 +244,46 @@ export default function Header() {
       `}</style>
 
       <header
-        className={`bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100 sticky top-0 z-50 transition-all duration-300 ${
-          isScrolled ? "py-2" : "py-0"
-        }`}
+        className={`bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100 sticky top-0 z-50 transition-all duration-300 ${isScrolled ? "py-2" : "py-0"
+          }`}
+        role="banner"
+        itemScope
+        itemType="https://schema.org/WPHeader"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div
-            className={`flex justify-between items-center transition-all duration-300 ${
-              isScrolled ? "h-16" : "h-20"
-            }`}
+            className={`flex justify-between items-center transition-all duration-300 ${isScrolled ? "h-16" : "h-20"
+              }`}
           >
             {/* Logo Section */}
-            <div className="flex items-center">
+            <div className="flex items-center" itemScope itemType="https://schema.org/Organization">
               <button
-                onClick={() => {
-                  setActiveSection("الرئيسية");
-                  scrollToSection("#home");
-                }}
+                onClick={handleLogoClick}
                 className="flex items-center space-x-2 space-x-reverse group"
                 aria-label="دهم - الصفحة الرئيسية"
               >
                 <div className="transition-transform duration-200 group-hover:scale-105">
                   <Image
                     src={logo}
-                    alt="دهم - شعار الشركة"
+                    alt="دهم - شعار وكالة التسويق الرقمي"
                     width={100}
                     className="object-contain transition-all duration-300"
                     priority
+                    itemProp="logo"
                   />
                 </div>
               </button>
+              <meta itemProp="name" content="دهم - وكالة التسويق الرقمي" />
+              <meta itemProp="description" content="وكالة تسويق رقمي عُمانية رائدة" />
             </div>
 
             {/* Desktop Navigation */}
             <nav
               className="hidden md:flex items-center space-x-8"
               role="navigation"
+              aria-label="القائمة الرئيسية"
+              itemScope
+              itemType="https://schema.org/SiteNavigationElement"
             >
               {navigation.map((item) => (
                 <button
@@ -273,9 +292,8 @@ export default function Header() {
                     setActiveSection(item.name);
                     scrollToSection(item.href);
                   }}
-                  className={`relative text-[#223059] hover:text-[#44428C] transition-colors duration-200 font-medium py-2 group cursor-pointer ${
-                    activeSection === item.name ? "text-[#44428C]" : ""
-                  }`}
+                  className={`relative text-[#223059] hover:text-[#44428C] transition-colors duration-200 font-medium py-2 group cursor-pointer ${activeSection === item.name ? "text-[#44428C]" : ""
+                    }`}
                 >
                   {item.name}
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#FF966A] group-hover:w-full transition-all duration-300"></span>
@@ -291,8 +309,11 @@ export default function Header() {
               <Button
                 className="bg-[#FF966A] hover:bg-[#F2AD85] text-white px-6 py-2 rounded-md font-medium transition-all duration-200 hover:scale-105 hover:shadow-lg active:scale-95"
                 aria-label="تسجيل حساب جديد"
+                itemProp="potentialAction"
+                itemScope
+                itemType="https://schema.org/RegisterAction"
               >
-                سجل الآن
+                <span itemProp="name">سجل الآن</span>
               </Button>
 
               <Button
@@ -305,14 +326,12 @@ export default function Header() {
               >
                 <div className="relative">
                   <Menu
-                    className={`h-6 w-6 text-[#223059] transition-all duration-300 ${
-                      isMenuOpen ? "rotate-180 scale-0" : "rotate-0 scale-100"
-                    }`}
+                    className={`h-6 w-6 text-[#223059] transition-all duration-300 ${isMenuOpen ? "rotate-180 scale-0" : "rotate-0 scale-100"
+                      }`}
                   />
                   <X
-                    className={`h-6 w-6 text-[#223059] absolute inset-0 transition-all duration-300 ${
-                      isMenuOpen ? "rotate-0 scale-100" : "rotate-180 scale-0"
-                    }`}
+                    className={`h-6 w-6 text-[#223059] absolute inset-0 transition-all duration-300 ${isMenuOpen ? "rotate-0 scale-100" : "rotate-180 scale-0"
+                      }`}
                   />
                 </div>
               </Button>
@@ -339,8 +358,7 @@ export default function Header() {
               <div className="flex items-center justify-between p-6 border-b border-gray-100/50 bg-gradient-to-r from-[#44428C]/5 to-[#FF966A]/5">
                 <button
                   onClick={() => {
-                    setActiveSection("الرئيسية");
-                    scrollToSection("#home");
+                    handleLogoClick();
                     setIsMenuOpen(false);
                   }}
                   className="flex items-center space-x-3 space-x-reverse group animate-scale-in"
@@ -369,20 +387,18 @@ export default function Header() {
                       style={{ animationDelay: `${index * 80}ms` }}
                     >
                       <button
-                        onClick={() => handleNavItemClick(item)}
-                        className={`group flex items-center justify-between w-full text-right px-5 py-4 text-[#223059] hover:text-[#44428C] hover:bg-gradient-to-r hover:from-gray-50 hover:to-[#FF966A]/5 rounded-xl transition-all duration-300 font-medium border-2 border-transparent hover:border-[#FF966A]/20 hover:shadow-sm ${
-                          activeSection === item.name
-                            ? "text-[#44428C] bg-gradient-to-r from-gray-50 to-[#FF966A]/10 border-[#FF966A]/30 shadow-sm"
-                            : ""
-                        }`}
+                        onClick={() => handleMobileNavClick(item)}
+                        className={`group flex items-center justify-between w-full text-right px-5 py-4 text-[#223059] hover:text-[#44428C] hover:bg-gradient-to-r hover:from-gray-50 hover:to-[#FF966A]/5 rounded-xl transition-all duration-300 font-medium border-2 border-transparent hover:border-[#FF966A]/20 hover:shadow-sm ${activeSection === item.name
+                          ? "text-[#44428C] bg-gradient-to-r from-gray-50 to-[#FF966A]/10 border-[#FF966A]/30 shadow-sm"
+                          : ""
+                          }`}
                       >
                         <span className="text-lg">{item.name}</span>
                         <ChevronRight
-                          className={`w-5 h-5 text-gray-400 group-hover:text-[#FF966A] transition-all duration-200 ${
-                            activeSection === item.name
-                              ? "text-[#FF966A] rotate-90"
-                              : "group-hover:translate-x-1"
-                          }`}
+                          className={`w-5 h-5 text-gray-400 group-hover:text-[#FF966A] transition-all duration-200 ${activeSection === item.name
+                            ? "text-[#FF966A] rotate-90"
+                            : "group-hover:translate-x-1"
+                            }`}
                         />
                       </button>
                     </div>

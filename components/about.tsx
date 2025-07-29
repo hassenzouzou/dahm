@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { AboutResponse } from "@/types/about";
+import { baseUrl } from "@/api/api";
 
 interface AboutProps {
   id?: string;
@@ -8,12 +9,8 @@ interface AboutProps {
 
 // Server-side data fetching function with cache prevention
 async function getAboutNumbers(): Promise<AboutResponse> {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-
   try {
-    // Add timestamp to prevent caching
-    const timestamp = new Date().getTime();
-    const response = await fetch(`${baseUrl}/api/about?t=${timestamp}`, {
+    const response = await fetch(`${baseUrl}/api/about`, {
       // Prevent all types of caching
       cache: "no-store",
       next: { revalidate: 0 },

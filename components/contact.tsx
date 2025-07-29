@@ -11,6 +11,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Mail, MapPin, MessageCircle } from "lucide-react";
 import { WhyDahmResponse } from "@/types/whyDahm";
+import { baseUrl } from "@/api/api";
 
 interface ContactProps {
   id?: string;
@@ -18,12 +19,10 @@ interface ContactProps {
 
 // Server-side data fetching function with cache prevention
 async function getWhyDahmReasons(): Promise<WhyDahmResponse> {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
   try {
-    // Add timestamp to prevent caching
-    const timestamp = new Date().getTime();
-    const response = await fetch(`${baseUrl}/api/why-dahm?t=${timestamp}`, {
+
+    const response = await fetch(`${baseUrl}/api/why-dahm`, {
       // Prevent all types of caching
       cache: "no-store",
       next: { revalidate: 0 },

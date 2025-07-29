@@ -8,6 +8,7 @@ import Image from "next/image";
 import logo from "@/public/logo.png";
 import { useState, useEffect } from "react";
 import { NewsletterResponse, SubscriptionResponse } from "@/types/newsletter";
+import { baseUrl } from "@/api/api";
 
 export default function Footer() {
   // Quick links with their corresponding section IDs
@@ -38,8 +39,8 @@ export default function Footer() {
   useEffect(() => {
     const fetchNewsletterContent = async () => {
       try {
-        const timestamp = new Date().getTime();
-        const response = await fetch(`/api/newsletter?t=${timestamp}`, {
+        // const timestamp = new Date().getTime();
+        const response = await fetch(`${baseUrl}/api/newsletter`, {
           cache: 'no-store',
           headers: {
             'Cache-Control': 'no-cache, no-store, must-revalidate',
@@ -64,7 +65,7 @@ export default function Footer() {
   // Handle newsletter subscription
   const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!email || !email.includes('@')) {
       setSubscriptionStatus({
         type: 'error',
@@ -77,7 +78,7 @@ export default function Footer() {
     setSubscriptionStatus({ type: null, message: "" });
 
     try {
-      const response = await fetch('/api/newsletter', {
+      const response = await fetch(`${baseUrl}/api/newsletter`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -194,7 +195,7 @@ export default function Footer() {
                 <p className="text-[#F2AD85]">
                   {newsletterContent.description}
                 </p>
-                
+
                 <form onSubmit={handleNewsletterSubmit} className="space-y-4">
                   <div className="flex space-x-2 space-x-reverse">
                     <Input
@@ -206,7 +207,7 @@ export default function Footer() {
                       disabled={isSubmitting}
                       required
                     />
-                    <Button 
+                    <Button
                       type="submit"
                       className="bg-[#FF966A] hover:bg-[#F2AD85] text-white px-6 transition-all duration-200 min-w-[80px]"
                       disabled={isSubmitting}
@@ -221,11 +222,10 @@ export default function Footer() {
 
                   {/* Status Message */}
                   {subscriptionStatus.type && (
-                    <div className={`flex items-center space-x-2 space-x-reverse p-3 rounded-lg ${
-                      subscriptionStatus.type === 'success' 
-                        ? 'bg-green-500/20 text-green-300' 
-                        : 'bg-red-500/20 text-red-300'
-                    }`}>
+                    <div className={`flex items-center space-x-2 space-x-reverse p-3 rounded-lg ${subscriptionStatus.type === 'success'
+                      ? 'bg-green-500/20 text-green-300'
+                      : 'bg-red-500/20 text-red-300'
+                      }`}>
                       {subscriptionStatus.type === 'success' ? (
                         <CheckCircle className="h-4 w-4 flex-shrink-0" />
                       ) : (

@@ -2,6 +2,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { Award, Users, Target, Camera, Palette, Cog } from "lucide-react";
 import { TeamResponse } from "@/types/team";
+import RetryButton from "./ui/RetryButton";
+import { baseUrl } from "@/api/api";
 
 interface TeamProps {
   id?: string;
@@ -19,12 +21,9 @@ const iconMap = {
 
 // Server-side data fetching function with cache prevention
 async function getTeamMembers(): Promise<TeamResponse> {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-
   try {
     // Add timestamp to prevent caching
-    const timestamp = new Date().getTime();
-    const response = await fetch(`${baseUrl}/api/team?t=${timestamp}`, {
+    const response = await fetch(`${baseUrl}/api/team`, {
       // Prevent all types of caching
       cache: "no-store",
       next: { revalidate: 0 },
@@ -69,21 +68,20 @@ export default async function Team({ id = "team" }: TeamProps) {
           <div className="text-center">
             <div className="text-red-500 mb-4">
               <p className="text-base sm:text-lg font-semibold">
-                Error loading team data
+                خطأ في تحميل البيانات
               </p>
-              <p className="text-xs sm:text-sm mt-2">{error}</p>
+              <p className="text-xs sm:text-sm">{error}</p>
             </div>
-            <button
-              onClick={() => window.location.reload()}
-              className="bg-[#44428C] text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base hover:bg-[#3a3a7a] transition-colors"
-            >
-              Try Again
-            </button>
+            <RetryButton className="bg-[#44428C] text-white px-4 sm:px-6 py-2 rounded-lg text-sm sm:text-base hover:bg-[#3a3675] transition-colors">
+              إعادة المحاولة
+            </RetryButton>
           </div>
         </div>
       </section>
     );
   }
+
+
 
   return (
     <section id={id} className="py-12 sm:py-16 lg:py-20 bg-white">

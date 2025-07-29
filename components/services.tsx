@@ -1,7 +1,8 @@
-// components/Services.tsx
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Camera, Palette, Smartphone, PenTool, Target } from "lucide-react";
 import { ServicesResponse } from "@/types/services";
+import RetryButton from "./ui/RetryButton";
+import { baseUrl } from "@/api/api";
 
 interface ServicesProps {
   id?: string;
@@ -18,12 +19,9 @@ const iconMap = {
 
 // Server-side data fetching function with cache prevention
 async function getServices(): Promise<ServicesResponse> {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-
   try {
     // Add timestamp to prevent caching
-    const timestamp = new Date().getTime();
-    const response = await fetch(`${baseUrl}/api/services?t=${timestamp}`, {
+    const response = await fetch(`${baseUrl}/api/services`, {
       // Prevent all types of caching
       cache: "no-store",
       next: { revalidate: 0 },
@@ -72,12 +70,9 @@ export default async function Services({ id = "services" }: ServicesProps) {
               </p>
               <p className="text-xs sm:text-sm">{error}</p>
             </div>
-            <button
-              onClick={() => window.location.reload()}
-              className="bg-[#44428C] text-white px-4 sm:px-6 py-2 rounded-lg text-sm sm:text-base hover:bg-[#3a3675] transition-colors"
-            >
+            <RetryButton className="bg-[#44428C] text-white px-4 sm:px-6 py-2 rounded-lg text-sm sm:text-base hover:bg-[#3a3675] transition-colors">
               إعادة المحاولة
-            </button>
+            </RetryButton>
           </div>
         </div>
       </section>
